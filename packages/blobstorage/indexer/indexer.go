@@ -3,7 +3,6 @@ package indexer
 import (
 	"context"
 	"crypto/sha256"
-	"errors"
 	"math/big"
 	"sync"
 	"time"
@@ -332,5 +331,10 @@ func (i *Indexer) storeBlob(ctx context.Context, event *taikol1.TaikoL1BlockProp
 		}
 	}
 
-	return errors.New("BLOB not found")
+	slog.Warn("no blob found",
+		"slot", slot,
+		"emittedIn", event.Raw.BlockNumber,
+	)
+
+	return nil
 }
